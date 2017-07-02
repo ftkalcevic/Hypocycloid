@@ -53,6 +53,7 @@
             this.spinBoreDiameter = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.camPanel = new hypocycloidcam.CycloidDisplay();
+            this.btnCreateAD = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spinTeethInCam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinRollerDiameter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinPinBoltCircleDiameter)).BeginInit();
@@ -319,11 +320,22 @@
             this.camPanel.Size = new System.Drawing.Size(1236, 590);
             this.camPanel.TabIndex = 0;
             // 
+            // btnCreateAD
+            // 
+            this.btnCreateAD.Location = new System.Drawing.Point(1010, 142);
+            this.btnCreateAD.Name = "btnCreateAD";
+            this.btnCreateAD.Size = new System.Drawing.Size(129, 49);
+            this.btnCreateAD.TabIndex = 25;
+            this.btnCreateAD.Text = "Create AD";
+            this.btnCreateAD.UseVisualStyleBackColor = true;
+            this.btnCreateAD.Click += new System.EventHandler(this.btnCreateAD_Click);
+            // 
             // HypoCycloidCamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 825);
+            this.Controls.Add(this.btnCreateAD);
             this.Controls.Add(this.spinBoreDiameter);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.lblMaxPressureAngle);
@@ -391,6 +403,7 @@
         private System.Windows.Forms.Label lblMaxPressureAngle;
         private System.Windows.Forms.NumericUpDown spinBoreDiameter;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnCreateAD;
     }
 }
 

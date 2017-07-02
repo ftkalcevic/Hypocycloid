@@ -19,6 +19,7 @@ namespace hypocycloidcam
             InitializeComponent();
             cam = new HypocycloidCam();
             camPanel.Cam = cam;
+            this.AutoScaleMode = AutoScaleMode.Dpi;
 
             spinTeethInCam.Value = cam.TeethInCAM;
             spinRollerDiameter.Value = (decimal)cam.RollerDiameter;
@@ -43,6 +44,7 @@ namespace hypocycloidcam
 
         private void Regen()
         {
+            cam.OutputLineSegments = cam.TeethInCAM * 40;
             cam.main();
             Refresh();
             lblActualToothPitch.Text = $"({cam.ComputedToothPitch})";
@@ -108,6 +110,19 @@ namespace hypocycloidcam
         {
             CamToDxf c = new CamToDxf(cam);
             c.Save("test.dxf");
+        }
+
+        private void btnCreateAD_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CamToAlibre a = new CamToAlibre(cam);
+                a.Create("hypocylcoid");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to create Alibre Design assembly\n\n" + ex.ToString());
+            }
         }
     }
 }
