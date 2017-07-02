@@ -73,17 +73,21 @@ namespace hypocycloidcam
             }
 
             IADRoot root = (IADRoot)hook.Root;
-            //IADAssemblySession assembly = root.CreateEmptyAssembly(name);
+            IADAssemblySession assembly = root.CreateEmptyAssembly(name);
 
-            CreateCAM(root, name + "_CAM");
-            CreateBase(root, name + "_BASE");
-            CreateEccentric(root, name + "_BASE");
+            CreateCAM(assembly, name + "_CAM");
+            CreateBase(assembly, name + "_BASE");
+            CreateEccentric(assembly, name + "_ECCENTRIC");
+            object path = @"c:\temp\ad";
+            assembly.SaveAs(ref path, name);
+            assembly.Close();
         }
 
-        private void CreateEccentric(IADRoot root, string name)
+        private void CreateEccentric(IADAssemblySession assembly, string name)
         {
-            IADPartSession part = root.CreateEmptyPart(name, isSheetMetal: false);
-
+            IADTransformation trans = assembly.GeometryFactory.CreateIdentityTransform();
+            IADOccurrence occurrence = assembly.RootOccurrence.Occurrences.AddEmptyPart(name, isSheetMetal: false, pTransform: trans);
+            IADPartSession part = (IADPartSession)occurrence.DesignSession;
             IADDesignPlane xyPlane = part.DesignPlanes.Item("XY-Plane");
 
             // Create circle for the pin
@@ -142,14 +146,17 @@ namespace hypocycloidcam
                                              IsOutwardDraft: false,
                                              name: "Motor shaft Bore");
 
-            object filename = @"c:\temp\ad";
-            part.SaveAs(ref filename, "name");
+            //object filename = @"c:\temp\ad";
+            //part.SaveAs(ref filename, "name");
 
         }
 
-        private void CreateBase(IADRoot root, string name)
+
+        private void CreateBase(IADAssemblySession assembly, string name)
         {
-            IADPartSession part = root.CreateEmptyPart(name, isSheetMetal: false);
+            IADTransformation trans = assembly.GeometryFactory.CreateIdentityTransform();
+            IADOccurrence occurrence = assembly.RootOccurrence.Occurrences.AddEmptyPart(name, isSheetMetal: false, pTransform: trans);
+            IADPartSession part = (IADPartSession)occurrence.DesignSession;
 
             IADDesignPlane xyPlane = part.DesignPlanes.Item("XY-Plane");
             IADSketch sketch = part.Sketches.AddSketch(null, part.planeXY(), "Pin");
@@ -238,14 +245,17 @@ namespace hypocycloidcam
                                               toGeometryOffset: 0,
                                               name: "Motor mounting holes");
 
-            object filename = @"c:\temp\ad";
-            part.SaveAs(ref filename, "name");
+            //object filename = @"c:\temp\ad";
+            //part.SaveAs(ref filename, "name");
         }
 
-        private void CreateCAM(IADRoot root, string name)
+        private void CreateCAM(IADAssemblySession assembly, string name)
         {
-            IADPartSession part = root.CreateEmptyPart(name,isSheetMetal:false);
-            
+            IADTransformation trans =  assembly.GeometryFactory.CreateIdentityTransform();
+            IADOccurrence occurrence = assembly.RootOccurrence.Occurrences.AddEmptyPart(name, isSheetMetal: false, pTransform: trans);
+            IADPartSession part = (IADPartSession)occurrence.DesignSession;
+
+
             IADDesignPlane xyPlane = part.DesignPlanes.Item("XY-Plane");
             IADSketch sketch = part.Sketches.AddSketch(null, part.planeXY(), "CAM Profile");
 
@@ -330,8 +340,8 @@ namespace hypocycloidcam
                                              IsOutwardDraft: false,
                                              name: "Bore cutout");
                                              
-            object filename = @"c:\temp\ad";
-            part.SaveAs(ref filename,"name");
+            //object filename = @"c:\temp\ad";
+            //part.SaveAs(ref filename,"name");
         }
 
         private double MMToCM(double mm)
