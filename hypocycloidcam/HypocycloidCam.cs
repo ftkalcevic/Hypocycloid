@@ -41,14 +41,14 @@ using System.Collections.Generic;
 
 namespace hypocycloidcam
 {
-    struct Pt
+    public struct Pt
     {
         public Pt(double x, double y) { this.x = x; this.y = y; }
         public double x;
         public double y;
     }
 
-    class HypocycloidCam
+    public class HypocycloidCam
     {
         public delegate void OnChangedDelegate();
         
@@ -223,6 +223,12 @@ namespace hypocycloidcam
             }
         }
 
+        public int OutputBearings;
+        public double OutputBearingsDia;
+        public double OutputPitchCircleDia;
+        public double EccentricBearingInnerDia;
+        public double EccentricBearingOuterDia;
+
         //public double rollerDiameter { get; set; }
         // 	print "\nExample: hypocycloid.py -p 0.08 -d 0.15 -e 0.05 -a 50.0 -c 0.01 -n 10 -s 400 -f foo.dxf"
 
@@ -270,12 +276,12 @@ namespace hypocycloidcam
             return new hypocycloidcam.Pt( r * Math.Cos(a), r * Math.Sin(a) );
         }
 
-        double calcyp(double a, double e, int n)
+        double calcyp(double a, double e, double n)
         {
             return Math.Atan(Math.Sin(n * a) / (Math.Cos(n * a) + (n * toothPitch) / (e * (n + 1))));
         }
 
-        double calcX(double p, double d, double e, int n, double a)
+        double calcX(double p, double d, double e, double n, double a)
         {
             return (n * p) * Math.Cos(a) + e * Math.Cos((n + 1) * a) - d / 2 * Math.Cos(calcyp(a, e, n) + a);
         }
@@ -324,13 +330,13 @@ namespace hypocycloidcam
         {
             if (inputPinBoltCircleDiameter > 0)
             {
-                toothPitch = pinBoltCircleDiameter / 2 / teethInCAM;
                 pinBoltCircleDiameter = inputPinBoltCircleDiameter;
+                toothPitch = pinBoltCircleDiameter / 2.0 / (double)teethInCAM;
             }
             else
             {
+                pinBoltCircleDiameter = toothPitch * 2 * (double)teethInCAM;
                 toothPitch = inputToothPitch;
-                pinBoltCircleDiameter = toothPitch * 2 * teethInCAM;
             }
 
             double q = 2 * Math.PI / outputLineSegments;
@@ -368,8 +374,8 @@ namespace hypocycloidcam
             rollerPoints = new List<Pt>();
             for (int i = 0; i < teethInCAM + 1; i++)
             {
-                double x = toothPitch * teethInCAM * Math.Cos(2 * Math.PI / (teethInCAM + 1) * i);
-                double y = toothPitch * teethInCAM * Math.Sin(2 * Math.PI / (teethInCAM + 1) * i);
+                double x = toothPitch * (double)teethInCAM * Math.Cos(2 * Math.PI / ((double)teethInCAM + 1.0) * i);
+                double y = toothPitch * (double)teethInCAM * Math.Sin(2 * Math.PI / ((double)teethInCAM + 1.0) * i);
 
                 rollerPoints.Add(new Pt(x, y));
             }

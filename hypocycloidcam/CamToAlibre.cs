@@ -75,12 +75,35 @@ namespace hypocycloidcam
             IADRoot root = (IADRoot)hook.Root;
             IADAssemblySession assembly = root.CreateEmptyAssembly(name);
 
+            CreateParameters(assembly, name + "_Parameters");
             CreateCAM(assembly, name + "_CAM");
             CreateBase(assembly, name + "_BASE");
             CreateEccentric(assembly, name + "_ECCENTRIC");
-            object path = @"c:\temp\ad";
-            assembly.SaveAs(ref path, name);
-            assembly.Close();
+            //object path = @"c:\temp\ad";
+            //assembly.SaveAs(ref path, name);
+            //assembly.Close();
+        }
+
+        private void CreateParameters(IADAssemblySession assembly, string name)
+        {
+            IADGlobalParameterSession session = assembly.Root.CreateEmptyGlobalParameters("GlobalParameters");
+
+            IADParameter globalPararmEccentric = session.Parameters.NewParameter("Eccentricy", ADParameterType.AD_DISTANCE);
+            IADParameter globalBearingInnerDia = session.Parameters.NewParameter("BearingInnerDia", ADParameterType.AD_DISTANCE);
+            IADParameter globalDriveShaftDia = session.Parameters.NewParameter("DriveShaftDia", ADParameterType.AD_DISTANCE);
+
+            session.Parameters.OpenParameterTransaction();
+
+            globalPararmEccentric.Units = ADUnits.AD_MILLIMETERS;
+            globalPararmEccentric.Value = cam.Eccentricity;
+
+            globalBearingInnerDia.Units = ADUnits.AD_MILLIMETERS;
+            globalBearingInnerDia.Value = 15;
+
+            globalDriveShaftDia.Units = ADUnits.AD_MILLIMETERS;
+            globalDriveShaftDia.Value = motor.shaftDia;
+
+            session.Parameters.CloseParameterTransaction();
         }
 
         private void CreateEccentric(IADAssemblySession assembly, string name)
@@ -90,10 +113,25 @@ namespace hypocycloidcam
             IADPartSession part = (IADPartSession)occurrence.DesignSession;
             IADDesignPlane xyPlane = part.DesignPlanes.Item("XY-Plane");
 
+            //IADParameter eccentricParam = part.Parameters.NewParameter("Eccentric", ADParameterType.AD_DISTANCE);
+            //IADParameter bearingInnerDiaParam = part.Parameters.NewParameter("BearingInnerDia", ADParameterType.AD_DISTANCE);
+            //part.Parameters.OpenParameterTransaction();
+            //eccentricParam.Value = MMToCM(cam.Eccentricity);
+            //bearingInnerDiaParam.Value = MMToCM(BearingID);
+            //part.Parameters.CloseParameterTransaction();
+
+            //IADParameter eccentricyParam = part.Parameters.NewParameter("Eccentricy", ADParameterType.AD_DISTANCE);
+            //part.Parameters.OpenParameterTransaction();
+            //eccentricyParam.ExternallyDriven = true;
+            //eccentricyParam.SourceDocumentID = "GlobalParameters";
+            //eccentricyParam.SourceItemID = "Eccentricy";
+            //part.Parameters.CloseParameterTransaction();
+
             // Create circle for the pin
             IADSketch sketch = part.Sketches.AddSketch(null, part.planeXY(), "Eccentric");
             sketch.BeginChange();
-            sketch.Figures.AddCircle(MMToCM(cam.Eccentricity), 0, MMToCM(BearingID / 2.0));
+            IADSketchCircle circle = sketch.Figures.AddCircle(MMToCM(cam.Eccentricity), 0, MMToCM(BearingID / 2.0));
+            //IADDimension dim = sketch.Dimensions.PlaceDiametricDimension(circle, "BearingInnerDia");
             sketch.EndChange();
             part.Features.AddExtrudedBoss(pSketch: sketch,
                                           depth: MMToCM(PinHeight),
@@ -111,7 +149,8 @@ namespace hypocycloidcam
 
             sketch = part.Sketches.AddSketch(null, part.planeXY(), "Centered");
             sketch.BeginChange();
-            sketch.Figures.AddCircle(0, 0, MMToCM(BearingID / 2.0));
+            circle = sketch.Figures.AddCircle(0, 0, MMToCM(BearingID / 2.0));
+            //dim = sketch.Dimensions.PlaceDiametricDimension(circle, "BearingInnerDia");
             sketch.EndChange();
             part.Features.AddExtrudedBoss(pSketch: sketch,
                                           depth: MMToCM(PinHeight),
@@ -130,7 +169,8 @@ namespace hypocycloidcam
             // Create the bore for the motor shaft
             sketch = part.Sketches.AddSketch(null, part.planeXY(), "Motor shaft Bore ");
             sketch.BeginChange();
-            sketch.Figures.AddCircle(0, 0, MMToCM(motor.shaftDia / 2.0));
+            circle = sketch.Figures.AddCircle(0, 0, MMToCM(motor.shaftDia / 2.0));
+            //dim = sketch.Dimensions.PlaceDiametricDimension(circle, "DriveShaftDia");
             sketch.EndChange();
             part.Features.AddExtrudedCutout(pSketch: sketch,
                                              depth: 0,

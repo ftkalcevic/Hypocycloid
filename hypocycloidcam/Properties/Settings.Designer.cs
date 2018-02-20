@@ -22,5 +22,161 @@ namespace hypocycloidcam.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int TeethInCam {
+            get {
+                return ((int)(this["TeethInCam"]));
+            }
+            set {
+                this["TeethInCam"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double RollerDiameter {
+            get {
+                return ((double)(this["RollerDiameter"]));
+            }
+            set {
+                this["RollerDiameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public double PinBoltCircleDiameter {
+            get {
+                return ((double)(this["PinBoltCircleDiameter"]));
+            }
+            set {
+                this["PinBoltCircleDiameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public double Eccentricity {
+            get {
+                return ((double)(this["Eccentricity"]));
+            }
+            set {
+                this["Eccentricity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public double BoreDiameter {
+            get {
+                return ((double)(this["BoreDiameter"]));
+            }
+            set {
+                this["BoreDiameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double ToothPitch {
+            get {
+                return ((double)(this["ToothPitch"]));
+            }
+            set {
+                this["ToothPitch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public double PressureAngleLimit {
+            get {
+                return ((double)(this["PressureAngleLimit"]));
+            }
+            set {
+                this["PressureAngleLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double OffsetInPressureAngle {
+            get {
+                return ((double)(this["OffsetInPressureAngle"]));
+            }
+            set {
+                this["OffsetInPressureAngle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int OutputBearings {
+            get {
+                return ((int)(this["OutputBearings"]));
+            }
+            set {
+                this["OutputBearings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double OutputBearingsDia {
+            get {
+                return ((double)(this["OutputBearingsDia"]));
+            }
+            set {
+                this["OutputBearingsDia"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public double OutputPitchCircleDia {
+            get {
+                return ((double)(this["OutputPitchCircleDia"]));
+            }
+            set {
+                this["OutputPitchCircleDia"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public double EccentricBearingInnerDia {
+            get {
+                return ((double)(this["EccentricBearingInnerDia"]));
+            }
+            set {
+                this["EccentricBearingInnerDia"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("19")]
+        public double EccentricBearingOuterDia {
+            get {
+                return ((double)(this["EccentricBearingOuterDia"]));
+            }
+            set {
+                this["EccentricBearingOuterDia"] = value;
+            }
+        }
     }
 }

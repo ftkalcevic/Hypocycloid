@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define GRADIENT_PRESSURE_ANGLE
+
+using System;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace hypocycloidcam
 {
-    class CycloidDisplay: Panel
+    public class CycloidDisplay: Panel
     {
 
         private HypocycloidCam cam;
@@ -112,12 +114,13 @@ namespace hypocycloidcam
             Graphics g = e.Graphics;
 
             // Min/Max Radii
+            float offs = (float)(cam.Eccentricity * xscale);
             GraphicsPath path = new GraphicsPath();
             float r;
             r = (float)(cam.PressureAngleMaxRadius * xscale);
-            path.AddEllipse(xoffset - r, yoffset - r, r * 2, r * 2);
+            path.AddEllipse(xoffset - r - offs, yoffset - r, r * 2, r * 2);
             r = (float)(cam.PressureAngleMinRadius * xscale);
-            path.AddEllipse(xoffset - r, yoffset - r, r*2, r*2);
+            path.AddEllipse(xoffset - r - offs, yoffset - r, r * 2, r * 2);
             g.FillPath(Brushes.LightGray, path);
 
             //cam
@@ -125,7 +128,7 @@ namespace hypocycloidcam
             int i = 0;
             foreach (Pt p in cam.camPoints)
             {
-                displayPoints[i].X = (float)(p.x * xscale + xoffset);
+                displayPoints[i].X = (float)((p.x - cam.Eccentricity) * xscale + xoffset);
                 displayPoints[i].Y = (float)(-1 * p.y * yscale + yoffset);
                 i++;
             }
@@ -134,8 +137,8 @@ namespace hypocycloidcam
             g.DrawPath(Pens.Black, path);
 
 #if GRADIENT_PRESSURE_ANGLE
-            float firstx=0, firsty=0, lastx=0, lasty=0;
-            int i = 0;
+            float firstx =0, firsty=0, lastx=0, lasty=0;
+            //int i = 0;
             foreach (Pt p in cam.camPoints)
             {
                 float x = (float)(p.x * xscale + xoffset);
@@ -163,12 +166,28 @@ namespace hypocycloidcam
                 float x = (float)(p.x * xscale + xoffset);
                 float y = (float)(-1 * p.y * yscale + yoffset);
                 r = (float)(cam.RollerDiameter * xscale / 2.0);
-                g.DrawEllipse(Pens.Blue, x - r, y - r, 2* r, 2* r);
+                g.DrawEllipse(Pens.Blue, x - r, y - r, 2 * r, 2 * r);
             }
 
-            double d = cam.BoreDiameter * xscale;
-            g.DrawEllipse(Pens.Black, (float)(xoffset - d / 2), (float)(yoffset - d / 2), (float)d, (float)d);
+            double d = cam.EccentricBearingOuterDia * xscale;
+            g.DrawEllipse(Pens.Black, (float)(xoffset - d / 2 -cam.Eccentricity*xscale), (float)(yoffset - d / 2), (float)d, (float)d);
 
+            // cam output circles
+            if (cam.OutputBearings > 0)
+            {
+                double holeDia = (cam.OutputBearingsDia + cam.Eccentricity * 2) * xscale;
+                double pitchDia = (cam.OutputPitchCircleDia) *xscale;
+                for (i = 0; i < cam.OutputBearings; i++)
+                {
+                    double angle = Math.PI * 2.0 * (double)i / (double)cam.OutputBearings;
+                    double x = (pitchDia / 2) * Math.Cos(angle);
+                    x -= cam.Eccentricity * xscale;
+                    double y = (pitchDia / 2 ) * Math.Sin(angle);
+
+
+                    g.DrawEllipse(Pens.Black, (float)(xoffset + x - holeDia/2), (float)(yoffset + y - holeDia/2), (float)holeDia, (float)holeDia);
+                }
+            }
 
             //RectangleF b = g.VisibleClipBounds;
             //g.DrawLine(Pens.Red, 0, 0, b.Width-1, b.Height - 1);

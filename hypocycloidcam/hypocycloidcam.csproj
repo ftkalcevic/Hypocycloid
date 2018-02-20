@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlibreX">
-      <HintPath>..\..\..\..\Program Files\Alibre Design\Program\AlibreX.dll</HintPath>
+      <HintPath>C:\Program Files\3D Systems\Geomagic Design\Program\AlibreX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
