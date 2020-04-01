@@ -33,17 +33,20 @@
             this.btnCreateAD = new System.Windows.Forms.Button();
             this.panelPlaceHolder = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.spinOutputBearings = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.spinOutputBearingsDia = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
+            this.chkCamPair = new System.Windows.Forms.CheckBox();
+            this.spinCamThickness = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.spinOutputPitchCircleDia = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
+            this.spinOutputBearingsDia = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.spinOutputBearings = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
             this.Eccentric = new System.Windows.Forms.GroupBox();
-            this.spinEccentricBearingInnerDia = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
             this.spinEccentricBearingOuterDia = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
+            this.spinEccentricBearingInnerDia = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
             this.General = new System.Windows.Forms.GroupBox();
             this.lblMaxPressureAngle = new System.Windows.Forms.Label();
             this.lblMinPressureAngle = new System.Windows.Forms.Label();
@@ -66,12 +69,13 @@
             this.spinTeethInCam = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearings)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearingsDia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinCamThickness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinOutputPitchCircleDia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearingsDia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearings)).BeginInit();
             this.Eccentric.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingInnerDia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingOuterDia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingInnerDia)).BeginInit();
             this.General.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinOffsetInPressureAngle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinPressureAngleLimit)).BeginInit();
@@ -84,7 +88,7 @@
             // 
             // Redraw
             // 
-            this.Redraw.Location = new System.Drawing.Point(7, 368);
+            this.Redraw.Location = new System.Drawing.Point(7, 416);
             this.Redraw.Margin = new System.Windows.Forms.Padding(2);
             this.Redraw.Name = "Redraw";
             this.Redraw.Size = new System.Drawing.Size(64, 25);
@@ -95,7 +99,7 @@
             // 
             // btnSaveDXF
             // 
-            this.btnSaveDXF.Location = new System.Drawing.Point(89, 368);
+            this.btnSaveDXF.Location = new System.Drawing.Point(89, 416);
             this.btnSaveDXF.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveDXF.Name = "btnSaveDXF";
             this.btnSaveDXF.Size = new System.Drawing.Size(64, 25);
@@ -106,7 +110,7 @@
             // 
             // btnCreateAD
             // 
-            this.btnCreateAD.Location = new System.Drawing.Point(89, 399);
+            this.btnCreateAD.Location = new System.Drawing.Point(89, 447);
             this.btnCreateAD.Margin = new System.Windows.Forms.Padding(2);
             this.btnCreateAD.Name = "btnCreateAD";
             this.btnCreateAD.Size = new System.Drawing.Size(64, 27);
@@ -127,6 +131,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkCamPair);
+            this.groupBox1.Controls.Add(this.spinCamThickness);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.spinOutputPitchCircleDia);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.spinOutputBearingsDia);
@@ -135,10 +142,78 @@
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Location = new System.Drawing.Point(7, 209);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(194, 85);
+            this.groupBox1.Size = new System.Drawing.Size(194, 134);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "CAM";
+            // 
+            // chkCamPair
+            // 
+            this.chkCamPair.CheckAlign = System.Drawing.ContentAlignment.TopRight;
+            this.chkCamPair.Location = new System.Drawing.Point(4, 103);
+            this.chkCamPair.Name = "chkCamPair";
+            this.chkCamPair.Size = new System.Drawing.Size(145, 18);
+            this.chkCamPair.TabIndex = 14;
+            this.chkCamPair.Text = "Cam pair";
+            this.chkCamPair.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.chkCamPair.UseVisualStyleBackColor = true;
+            // 
+            // spinCamThickness
+            // 
+            this.spinCamThickness.DecimalPlaces = 2;
+            this.spinCamThickness.Location = new System.Drawing.Point(135, 80);
+            this.spinCamThickness.Margin = new System.Windows.Forms.Padding(2);
+            this.spinCamThickness.Name = "spinCamThickness";
+            this.spinCamThickness.Size = new System.Drawing.Size(44, 20);
+            this.spinCamThickness.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(5, 81);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Cam Thickness";
+            // 
+            // spinOutputPitchCircleDia
+            // 
+            this.spinOutputPitchCircleDia.DecimalPlaces = 2;
+            this.spinOutputPitchCircleDia.Location = new System.Drawing.Point(135, 57);
+            this.spinOutputPitchCircleDia.Margin = new System.Windows.Forms.Padding(2);
+            this.spinOutputPitchCircleDia.Name = "spinOutputPitchCircleDia";
+            this.spinOutputPitchCircleDia.Size = new System.Drawing.Size(44, 20);
+            this.spinOutputPitchCircleDia.TabIndex = 10;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(5, 58);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(114, 13);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Output Pitch Circle Dia";
+            // 
+            // spinOutputBearingsDia
+            // 
+            this.spinOutputBearingsDia.DecimalPlaces = 2;
+            this.spinOutputBearingsDia.Location = new System.Drawing.Point(135, 35);
+            this.spinOutputBearingsDia.Margin = new System.Windows.Forms.Padding(2);
+            this.spinOutputBearingsDia.Name = "spinOutputBearingsDia";
+            this.spinOutputBearingsDia.Size = new System.Drawing.Size(44, 20);
+            this.spinOutputBearingsDia.TabIndex = 8;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(5, 36);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(97, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "Output Bearing Dia";
             // 
             // spinOutputBearings
             // 
@@ -158,75 +233,22 @@
             this.label11.TabIndex = 5;
             this.label11.Text = "Output Bearings";
             // 
-            // spinOutputBearingsDia
-            // 
-            this.spinOutputBearingsDia.Location = new System.Drawing.Point(135, 35);
-            this.spinOutputBearingsDia.Margin = new System.Windows.Forms.Padding(2);
-            this.spinOutputBearingsDia.Name = "spinOutputBearingsDia";
-            this.spinOutputBearingsDia.Size = new System.Drawing.Size(44, 20);
-            this.spinOutputBearingsDia.TabIndex = 8;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 36);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(97, 13);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "Output Bearing Dia";
-            // 
-            // spinOutputPitchCircleDia
-            // 
-            this.spinOutputPitchCircleDia.Location = new System.Drawing.Point(135, 57);
-            this.spinOutputPitchCircleDia.Margin = new System.Windows.Forms.Padding(2);
-            this.spinOutputPitchCircleDia.Name = "spinOutputPitchCircleDia";
-            this.spinOutputPitchCircleDia.Size = new System.Drawing.Size(44, 20);
-            this.spinOutputPitchCircleDia.TabIndex = 10;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(5, 58);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(114, 13);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "Output Pitch Circle Dia";
-            // 
             // Eccentric
             // 
             this.Eccentric.Controls.Add(this.spinEccentricBearingOuterDia);
             this.Eccentric.Controls.Add(this.label15);
             this.Eccentric.Controls.Add(this.spinEccentricBearingInnerDia);
             this.Eccentric.Controls.Add(this.label14);
-            this.Eccentric.Location = new System.Drawing.Point(7, 301);
+            this.Eccentric.Location = new System.Drawing.Point(7, 349);
             this.Eccentric.Name = "Eccentric";
             this.Eccentric.Size = new System.Drawing.Size(194, 62);
             this.Eccentric.TabIndex = 28;
             this.Eccentric.TabStop = false;
             this.Eccentric.Text = "Eccentric";
             // 
-            // spinEccentricBearingInnerDia
-            // 
-            this.spinEccentricBearingInnerDia.Location = new System.Drawing.Point(135, 15);
-            this.spinEccentricBearingInnerDia.Margin = new System.Windows.Forms.Padding(2);
-            this.spinEccentricBearingInnerDia.Name = "spinEccentricBearingInnerDia";
-            this.spinEccentricBearingInnerDia.Size = new System.Drawing.Size(44, 20);
-            this.spinEccentricBearingInnerDia.TabIndex = 8;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(5, 16);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(89, 13);
-            this.label14.TabIndex = 7;
-            this.label14.Text = "Bearing Inner Dia";
-            // 
             // spinEccentricBearingOuterDia
             // 
+            this.spinEccentricBearingOuterDia.DecimalPlaces = 2;
             this.spinEccentricBearingOuterDia.Location = new System.Drawing.Point(135, 37);
             this.spinEccentricBearingOuterDia.Margin = new System.Windows.Forms.Padding(2);
             this.spinEccentricBearingOuterDia.Name = "spinEccentricBearingOuterDia";
@@ -242,6 +264,25 @@
             this.label15.Size = new System.Drawing.Size(91, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "Bearing Outer Dia";
+            // 
+            // spinEccentricBearingInnerDia
+            // 
+            this.spinEccentricBearingInnerDia.DecimalPlaces = 2;
+            this.spinEccentricBearingInnerDia.Location = new System.Drawing.Point(135, 15);
+            this.spinEccentricBearingInnerDia.Margin = new System.Windows.Forms.Padding(2);
+            this.spinEccentricBearingInnerDia.Name = "spinEccentricBearingInnerDia";
+            this.spinEccentricBearingInnerDia.Size = new System.Drawing.Size(44, 20);
+            this.spinEccentricBearingInnerDia.TabIndex = 8;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(5, 16);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(89, 13);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "Bearing Inner Dia";
             // 
             // General
             // 
@@ -512,13 +553,14 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HypoCycloidCamForm_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearings)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearingsDia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinCamThickness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinOutputPitchCircleDia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearingsDia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinOutputBearings)).EndInit();
             this.Eccentric.ResumeLayout(false);
             this.Eccentric.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingInnerDia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingOuterDia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEccentricBearingInnerDia)).EndInit();
             this.General.ResumeLayout(false);
             this.General.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinOffsetInPressureAngle)).EndInit();
@@ -571,6 +613,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown spinTeethInCam;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkCamPair;
+        private System.Windows.Forms.NumericUpDown spinCamThickness;
+        private System.Windows.Forms.Label label10;
     }
 }
 

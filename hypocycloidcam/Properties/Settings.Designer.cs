@@ -178,5 +178,29 @@ namespace hypocycloidcam.Properties {
                 this["EccentricBearingOuterDia"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double CamThickness {
+            get {
+                return ((double)(this["CamThickness"]));
+            }
+            set {
+                this["CamThickness"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CamPair {
+            get {
+                return ((bool)(this["CamPair"]));
+            }
+            set {
+                this["CamPair"] = value;
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace hypocycloidcam
             dxf.AddEntity(new Circle(new Vector2(-cam.Eccentricity, 0), cam.PressureAngleMaxRadius) { Layer = pressureLayer });
 
             // add a circle in the center of the cam
-            dxf.AddEntity(new Circle(new Vector2(-cam.Eccentricity, 0), cam.BoreDiameter / 2) { Layer = camLayer });
+            dxf.AddEntity(new Circle(new Vector2(-cam.Eccentricity, 0), cam.EccentricBearingOuterDia / 2) { Layer = camLayer });
 
             // generate the cam profile - note: shifted in -x by eccentricicy amount
             Pt? lastPt = null;
@@ -63,7 +63,7 @@ namespace hypocycloidcam
             }
 
             // add a circle in the center of the pins
-            dxf.AddEntity(new Circle(new Vector2(0, 0), cam.BoreDiameter / 2) { Layer = rollerLayer });
+            dxf.AddEntity(new Circle(new Vector2(0, 0), cam.EccentricBearingOuterDia / 2) { Layer = rollerLayer });
 
             dxf.Save(filename);
         }

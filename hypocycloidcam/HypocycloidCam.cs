@@ -178,19 +178,6 @@ namespace hypocycloidcam
             }
         }
 
-        public double BoreDiameter
-        {
-            get
-            {
-                return boreDiameter;
-            }
-
-            set
-            {
-                boreDiameter = value;
-            }
-        }
-
         public double PressureAngleMin
         {
             get
@@ -228,6 +215,8 @@ namespace hypocycloidcam
         public double OutputPitchCircleDia;
         public double EccentricBearingInnerDia;
         public double EccentricBearingOuterDia;
+        public double CamThickness;
+        public bool CamPair;
 
         //public double rollerDiameter { get; set; }
         // 	print "\nExample: hypocycloid.py -p 0.08 -d 0.15 -e 0.05 -a 50.0 -c 0.01 -n 10 -s 400 -f foo.dxf"
@@ -242,7 +231,6 @@ namespace hypocycloidcam
         double pressureAngleLimit;
         double offsetInPressureAngle;
 
-        double boreDiameter;
         int outputLineSegments;
         string outputFilename;
 
@@ -260,7 +248,6 @@ namespace hypocycloidcam
             pinBoltCircleDiameter = inputPinBoltCircleDiameter = 80.00;
             pressureAngleLimit = 50.0;
             offsetInPressureAngle = 0.00;
-            boreDiameter = 24;
 
             outputLineSegments = 400;
             outputFilename = "fooxxx";

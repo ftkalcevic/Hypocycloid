@@ -45,30 +45,11 @@ namespace hypocycloidcam
             if (Cam == null || Cam.rollerPoints == null)
                 return;
 
-            // Calculate bounding box
-            double minx = 0, maxx = 0;
-            double miny = 0, maxy = 0;
-            foreach ( Pt p in cam.camPoints)
-            {
-                UpdateMinMax(ref minx, ref maxx, p.x);
-                UpdateMinMax(ref miny, ref maxy, p.y);
-            }
-            foreach (Pt p in cam.rollerPoints)
-            {
-                float x = (float)(p.x * xscale + xoffset);
-                float y = (float)(-1 * p.y * yscale + yoffset);
-                float r = (float)(cam.RollerDiameter * xscale / 2.0);
-                UpdateMinMax(ref minx, ref maxx, p.x - cam.RollerDiameter/2);
-                UpdateMinMax(ref minx, ref maxx, p.x + cam.RollerDiameter/2);
-                UpdateMinMax(ref miny, ref maxy, p.y - cam.RollerDiameter/2);
-                UpdateMinMax(ref miny, ref maxy, p.y + cam.RollerDiameter/2);
-            }
-            double dx = Math.Max(maxx, Math.Abs(minx));
-            double dy = Math.Max(maxy, Math.Abs(miny));
+            double dy = (cam.PinBoltCircleDiameter + 2 * cam.RollerDiameter)/2.0;
 
             // Always keep the origin in the center.
             double displaySize, camSize;
-            if (Height / dx < Width / dy)
+            if (Height / dy < Width / dy)
             {
                 displaySize = Height;
                 camSize = dy;
@@ -76,7 +57,7 @@ namespace hypocycloidcam
             else
             {
                 displaySize = Width;
-                camSize = dx;
+                camSize = dy;
             }
 
             camSize *= 1.1; // 10% border
@@ -170,24 +151,34 @@ namespace hypocycloidcam
             }
 
             double d = cam.EccentricBearingOuterDia * xscale;
-            g.DrawEllipse(Pens.Black, (float)(xoffset - d / 2 -cam.Eccentricity*xscale), (float)(yoffset - d / 2), (float)d, (float)d);
+            g.DrawEllipse(Pens.Black, (float)(xoffset - d / 2 - cam.Eccentricity * xscale), (float)(yoffset - d / 2), (float)d, (float)d);
 
             // cam output circles
             if (cam.OutputBearings > 0)
             {
                 double holeDia = (cam.OutputBearingsDia + cam.Eccentricity * 2) * xscale;
-                double pitchDia = (cam.OutputPitchCircleDia) *xscale;
-                for (i = 0; i < cam.OutputBearings; i++)
-                {
-                    double angle = Math.PI * 2.0 * (double)i / (double)cam.OutputBearings;
-                    double x = (pitchDia / 2) * Math.Cos(angle);
-                    x -= cam.Eccentricity * xscale;
-                    double y = (pitchDia / 2 ) * Math.Sin(angle);
+                double pitchDia = (cam.OutputPitchCircleDia) * xscale;
+                for (int a = 0; a < (cam.CamPair ? 2 : 1); a++)
+                { 
+                    for (i = 0; i < cam.OutputBearings; i++)
+                    {
+                        double angle = Math.PI * 2.0 * (double)i / (double)cam.OutputBearings + (a==0?0:((Math.PI * 2.0) / (cam.TeethInCAM + 1) / 2));
+                        double x = (pitchDia / 2) * Math.Cos(angle);
+                        x -= cam.Eccentricity * xscale;
+                        double y = (pitchDia / 2) * Math.Sin(angle);
 
 
-                    g.DrawEllipse(Pens.Black, (float)(xoffset + x - holeDia/2), (float)(yoffset + y - holeDia/2), (float)holeDia, (float)holeDia);
+                        Pen p = Pens.Black;
+                        if (a == 1)
+                            p = Pens.Red;
+                        g.DrawEllipse(p, (float)(xoffset + x - holeDia / 2), (float)(yoffset + y - holeDia / 2), (float)holeDia, (float)holeDia);
+                    }
                 }
             }
+
+            // Base circle
+            d = (cam.PinBoltCircleDiameter + 2 * cam.RollerDiameter) * xscale;
+            g.DrawEllipse(Pens.Black, (float)(xoffset - d / 2 ), (float)(yoffset - d / 2), (float)d, (float)d);
 
             //RectangleF b = g.VisibleClipBounds;
             //g.DrawLine(Pens.Red, 0, 0, b.Width-1, b.Height - 1);

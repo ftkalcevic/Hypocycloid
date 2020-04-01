@@ -36,19 +36,15 @@ namespace hypocycloidcam
     {
         HypocycloidCam cam;
 
-        public double CamThickness { get; set; }
         public double PinHeight { get; set; }
         public double BaseThickness { get; set; }
-        public double BearingID { get; set; }
         public Motor motor { get; set; }
 
         public CamToAlibre(HypocycloidCam cam)
         {
             this.cam = cam;
-            CamThickness = 5.0;
             PinHeight = 10;
             BaseThickness = 5;
-            BearingID = 15;
             motor = new Motor()
             {
                 motorMountBore = 22,
@@ -76,7 +72,15 @@ namespace hypocycloidcam
             IADAssemblySession assembly = root.CreateEmptyAssembly(name);
 
             CreateParameters(assembly, name + "_Parameters");
-            CreateCAM(assembly, name + "_CAM");
+            if ( cam.CamPair )
+            {
+                CreateCAM(assembly, name + "_CAM1", false);
+                CreateCAM(assembly, name + "_CAM2", true);
+            }
+            else
+            {
+                CreateCAM(assembly, name + "_CAM", false);
+            }
             CreateBase(assembly, name + "_BASE");
             CreateEccentric(assembly, name + "_ECCENTRIC");
             //object path = @"c:\temp\ad";
@@ -130,7 +134,7 @@ namespace hypocycloidcam
             // Create circle for the pin
             IADSketch sketch = part.Sketches.AddSketch(null, part.planeXY(), "Eccentric");
             sketch.BeginChange();
-            IADSketchCircle circle = sketch.Figures.AddCircle(MMToCM(cam.Eccentricity), 0, MMToCM(BearingID / 2.0));
+            IADSketchCircle circle = sketch.Figures.AddCircle(MMToCM(cam.Eccentricity), 0, MMToCM(cam.EccentricBearingInnerDia / 2.0));
             //IADDimension dim = sketch.Dimensions.PlaceDiametricDimension(circle, "BearingInnerDia");
             sketch.EndChange();
             part.Features.AddExtrudedBoss(pSketch: sketch,
@@ -149,7 +153,7 @@ namespace hypocycloidcam
 
             sketch = part.Sketches.AddSketch(null, part.planeXY(), "Centered");
             sketch.BeginChange();
-            circle = sketch.Figures.AddCircle(0, 0, MMToCM(BearingID / 2.0));
+            circle = sketch.Figures.AddCircle(0, 0, MMToCM(cam.EccentricBearingInnerDia / 2.0));
             //dim = sketch.Dimensions.PlaceDiametricDimension(circle, "BearingInnerDia");
             sketch.EndChange();
             part.Features.AddExtrudedBoss(pSketch: sketch,
@@ -289,7 +293,7 @@ namespace hypocycloidcam
             //part.SaveAs(ref filename, "name");
         }
 
-        private void CreateCAM(IADAssemblySession assembly, string name)
+        private void CreateCAM(IADAssemblySession assembly, string name, bool secondCam)
         {
             IADTransformation trans =  assembly.GeometryFactory.CreateIdentityTransform();
             IADOccurrence occurrence = assembly.RootOccurrence.Occurrences.AddEmptyPart(name, isSheetMetal: false, pTransform: trans);
@@ -348,7 +352,7 @@ namespace hypocycloidcam
             // Extrude the cam
             double draftAngle = 0;
             part.Features.AddExtrudedBoss(pSketch: sketch,
-                                           depth: MMToCM(CamThickness),
+                                           depth: MMToCM(cam.CamThickness),
                                            endCondition: ADPartFeatureEndCondition.AD_TO_DEPTH,
                                            toGeometryOcc: null,
                                            toGeometryObject: null,
@@ -364,7 +368,7 @@ namespace hypocycloidcam
             // Create the bore
             sketch = part.Sketches.AddSketch(null, part.planeXY(), "Bore ");
             sketch.BeginChange();
-            sketch.Figures.AddCircle(0, 0, MMToCM(cam.BoreDiameter/2.0));
+            sketch.Figures.AddCircle(0, 0, MMToCM(cam.EccentricBearingOuterDia/2.0));
             sketch.EndChange();
             part.Features.AddExtrudedCutout(pSketch: sketch,
                                              depth: 0,
@@ -379,7 +383,44 @@ namespace hypocycloidcam
                                              draftAngle: draftAngle,
                                              IsOutwardDraft: false,
                                              name: "Bore cutout");
-                                             
+
+            double offsetAngle = 0;
+            if (secondCam)
+                offsetAngle = (Math.PI * 2.0) / (cam.TeethInCAM + 1) / 2;
+
+            // Create the output holes
+            sketch = part.Sketches.AddSketch(null, part.planeXY(), "Output Holes");
+            sketch.BeginChange();
+            if (cam.OutputBearings > 0)
+            {
+                double holeDia = MMToCM(cam.OutputBearingsDia + cam.Eccentricity * 2);
+                double pitchDia = MMToCM(cam.OutputPitchCircleDia);
+                for (int i = 0; i < cam.OutputBearings; i++)
+                {
+                    double angle = Math.PI * 2.0 * (double)i / (double)cam.OutputBearings - offsetAngle;
+                    double x = (pitchDia / 2) * Math.Cos(angle);
+                    double y = (pitchDia / 2) * Math.Sin(angle);
+
+
+                    sketch.Figures.AddCircle(x, y, holeDia / 2.0);
+                }
+            }
+            sketch.EndChange();
+            part.Features.AddExtrudedCutout(pSketch: sketch,
+                                             depth: 0,
+                                             endCondition: ADPartFeatureEndCondition.AD_THROUGH_ALL,
+                                             toGeometryOcc: null,
+                                             toGeometryObject: null,
+                                             toGeometryOffset: 0,
+                                             direction: ADDirectionType.AD_ALONG_NORMAL,
+                                             pDirectionOcc: null,
+                                             pDirectionObject: null,
+                                             isDirectionReversed: false,
+                                             draftAngle: draftAngle,
+                                             IsOutwardDraft: false,
+                                             name: "Output cutout");
+
+
             //object filename = @"c:\temp\ad";
             //part.SaveAs(ref filename,"name");
         }

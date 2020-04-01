@@ -37,7 +37,6 @@ namespace hypocycloidcam
             cam.RollerDiameter = Properties.Settings.Default.RollerDiameter;
             cam.PinBoltCircleDiameter = Properties.Settings.Default.PinBoltCircleDiameter;
             cam.Eccentricity = Properties.Settings.Default.Eccentricity;
-            //cam.BoreDiameter = Properties.Settings.Default.BoreDiameter;
             cam.ToothPitch = Properties.Settings.Default.ToothPitch;
             cam.PressureAngleLimit = Properties.Settings.Default.PressureAngleLimit;
             cam.OffsetInPressureAngle = Properties.Settings.Default.OffsetInPressureAngle;
@@ -46,6 +45,8 @@ namespace hypocycloidcam
             cam.OutputPitchCircleDia = Properties.Settings.Default.OutputPitchCircleDia;
             cam.EccentricBearingInnerDia = Properties.Settings.Default.EccentricBearingInnerDia;
             cam.EccentricBearingOuterDia = Properties.Settings.Default.EccentricBearingOuterDia;
+            cam.CamThickness = Properties.Settings.Default.CamThickness;
+            cam.CamPair = Properties.Settings.Default.CamPair;
 
             spinTeethInCam.Value = cam.TeethInCAM;
             spinRollerDiameter.Value = (decimal)cam.RollerDiameter;
@@ -54,12 +55,13 @@ namespace hypocycloidcam
             spinToothPitch.Value = (decimal)cam.ToothPitch;
             spinPressureAngleLimit.Value = (decimal)cam.PressureAngleLimit;
             spinOffsetInPressureAngle.Value = (decimal)cam.OffsetInPressureAngle;
-            //spinBoreDiameter.Value = (decimal)cam.BoreDiameter;
             spinOutputBearings.Value = cam.OutputBearings;
             spinOutputBearingsDia.Value = (decimal)cam.OutputBearingsDia;
             spinOutputPitchCircleDia.Value = (decimal)cam.OutputPitchCircleDia;
             spinEccentricBearingInnerDia.Value = (decimal)cam.EccentricBearingInnerDia;
             spinEccentricBearingOuterDia.Value = (decimal)cam.EccentricBearingOuterDia;
+            spinCamThickness.Value = (decimal)cam.CamThickness;
+            chkCamPair.Checked = cam.CamPair;
 
             spinTeethInCam.ValueChanged += SpinTeethInCam_ValueChanged;
             spinRollerDiameter.ValueChanged += SpinRollerDiameter_ValueChanged;
@@ -68,12 +70,13 @@ namespace hypocycloidcam
             spinToothPitch.ValueChanged += SpinToothPitch_ValueChanged;
             spinPressureAngleLimit.ValueChanged += SpinPressureAngleLimit_ValueChanged;
             spinOffsetInPressureAngle.ValueChanged += SpinOffsetInPressureAngle_ValueChanged;
-            //spinBoreDiameter.ValueChanged += SpinBoreDiameter_ValueChanged;
             spinOutputBearings.ValueChanged += OtherValues_Changed;
             spinOutputBearingsDia.ValueChanged += OtherValues_Changed;
             spinOutputPitchCircleDia.ValueChanged += OtherValues_Changed;
             spinEccentricBearingInnerDia.ValueChanged += OtherValues_Changed;
             spinEccentricBearingOuterDia.ValueChanged += OtherValues_Changed;
+            spinCamThickness.ValueChanged += OtherValues_Changed;
+            chkCamPair.Click += OtherValues_Changed;
 
             Regen();
         }
@@ -85,6 +88,8 @@ namespace hypocycloidcam
             cam.OutputPitchCircleDia = (double)spinOutputPitchCircleDia.Value;
             cam.EccentricBearingInnerDia = (double)spinEccentricBearingInnerDia.Value;
             cam.EccentricBearingOuterDia = (double)spinEccentricBearingOuterDia.Value;
+            cam.CamThickness = (double)spinCamThickness.Value;
+            cam.CamPair = chkCamPair.Checked;
 
             Regen();
         }
@@ -101,12 +106,6 @@ namespace hypocycloidcam
             lblMaxPressureAngle.Text = cam.PressureAngleMax.ToString() + @"°";
         }
 
-        //private void SpinBoreDiameter_ValueChanged(object sender, EventArgs e)
-        //{
-        //    cam.BoreDiameter = (double)spinBoreDiameter.Value;
-        //    Regen();
-        //}
-        
         private void SpinOffsetInPressureAngle_ValueChanged(object sender, EventArgs e)
         {
             cam.OffsetInPressureAngle = (double)spinOffsetInPressureAngle.Value;
@@ -180,7 +179,6 @@ namespace hypocycloidcam
             Properties.Settings.Default.RollerDiameter = cam.RollerDiameter;
             Properties.Settings.Default.PinBoltCircleDiameter = cam.PinBoltCircleDiameter;
             Properties.Settings.Default.Eccentricity = cam.Eccentricity;
-            //Properties.Settings.Default.BoreDiameter = cam.BoreDiameter;
             Properties.Settings.Default.ToothPitch = cam.ToothPitch;
             Properties.Settings.Default.PressureAngleLimit = cam.PressureAngleLimit;
             Properties.Settings.Default.OffsetInPressureAngle = cam.OffsetInPressureAngle;
@@ -189,6 +187,8 @@ namespace hypocycloidcam
             Properties.Settings.Default.OutputPitchCircleDia = cam.OutputPitchCircleDia;
             Properties.Settings.Default.EccentricBearingInnerDia = cam.EccentricBearingInnerDia;
             Properties.Settings.Default.EccentricBearingOuterDia = cam.EccentricBearingOuterDia;
+            Properties.Settings.Default.CamThickness = cam.CamThickness;
+            Properties.Settings.Default.CamPair = cam.CamPair;
 
             Properties.Settings.Default.Save();
         }
